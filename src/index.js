@@ -7,9 +7,6 @@ class Server {
         this.app = express();
         this.port = process.env.PORT || 3000;
         this.host = process.env.HOST || 'localhost';
-        this.usersPath = '/api/users';
-        this.productsPath = '/api/producto';
-        this.carritoPath = '/api/carrito';
         this.settings();
         this.middleware();
         this.routes();
