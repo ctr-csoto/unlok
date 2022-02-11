@@ -3,13 +3,15 @@ const mediaApi = require('../components/media');
 const paymentsApi = require('../components/payments');
 const usersApi = require('../components/users');
 const subscriptionsApi = require('../components/subscriptions');
+const operacionesApi = require('../components/operaciones');
 
 module.exports = (app) => {
   authApi(app);
-  mediaApi(app);
-  paymentsApi(app);
-  usersApi(app);
-  subscriptionsApi(app);
+  operacionesApi(app);
+  // mediaApi(app);
+  // paymentsApi(app);
+  // usersApi(app);
+  // subscriptionsApi(app);
   app.get("/", (req, res, next) => {
     res.status(200).send(`ok`);
   });

@@ -1,4 +1,2 @@
-const App = require('./src');
-const app = new App();
-
+const app = require('./src');
 app.listen();
