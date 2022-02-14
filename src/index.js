@@ -1,5 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+// const {
+//     logErrors,
+//     wrapErrors,
+//     errorHandler
+//   } = require('./utils/middleware/errorHandlers');
+//   const notFoundHandler = require('./utils/middleware/notFoundHandler');
 const serveRoutes = require('./routes');
 
 class Server {
@@ -28,10 +34,19 @@ class Server {
    
 
     middleware() {
+        
         this.app.use(cors('*'));
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended:true}));
         this.app.use(express.static('public'));
+
+        // Catch 404
+        // this.app.use(notFoundHandler);
+
+        // //Errors controllers
+        // this.app.use(logErrors);
+        // this.app.use(wrapErrors);
+        // this.app.use(errorHandler);
     }
     
     routes() {

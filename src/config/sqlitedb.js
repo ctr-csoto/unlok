@@ -1,14 +1,10 @@
-const knex = require("knex");
+const Sequelize = require('sequelize');
 const { config } = require("./index")
 
-const sqlite = knex({
-    client: 'sqlite3',
-    connection: {
-        filename: "./db/operaciones.sqlite"
-    },
-    useNullAsDefault: true,
-    pool: { min: 0, max: 10 }
-})
+const sqlite = new Sequelize({
+    dialect: 'sqlite',
+    storage: './db/testingdb.sqlite'
+  });
 
 class SqliteDatabase {
     static client;
