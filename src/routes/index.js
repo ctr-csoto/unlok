@@ -1,13 +1,11 @@
 const authApi = require('../components/auth');
-const mediaApi = require('../components/media');
-const paymentsApi = require('../components/payments');
-const usersApi = require('../components/users');
-const subscriptionsApi = require('../components/subscriptions');
-const operacionesApi = require('../components/operaciones');
+// const mediaApi = require('../components/media');
+// const paymentsApi = require('../components/payments');
+// const usersApi = require('../components/users');
+// const subscriptionsApi = require('../components/subscriptions');
 
 module.exports = (app) => {
   authApi(app);
-  operacionesApi(app);
   // mediaApi(app);
   // paymentsApi(app);
   // usersApi(app);

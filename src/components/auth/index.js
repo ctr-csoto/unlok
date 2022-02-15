@@ -14,4 +14,10 @@ module.exports = function authApi(app) {
         validationHandler(loginSchema),
         authHandler.loginController
     );
+
+    router.post(
+        '/verifyToken',
+        validationHandler(verifyTokenSchema),
+        authHandler.verifyTokenController
+      );
 };
