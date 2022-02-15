@@ -6,7 +6,7 @@
 # Custome
 package-lock.json
 .env
-/src/utils/middleware
+#/src/utils/middleware
 
 # Node artifact files
 node_modules/

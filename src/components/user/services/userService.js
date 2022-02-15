@@ -42,9 +42,7 @@ class UserService extends ResourceService {
     const user = await User.findOne({ ...query, where });
     return user;
   }
-
-
-
+  
 }
 
 module.exports = new UserService();
