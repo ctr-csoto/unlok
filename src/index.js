@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors');
+const corsHandler = require('./utils/middleware/corsHandler');
 // const {
 //     logErrors,
 //     wrapErrors,
@@ -20,7 +20,7 @@ class Server {
 
     
     settings() {
-        this.app.use(cors('*'));
+        this.app.use(corsHandler());
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended:true}));
         this.app.use(express.static('public'));
