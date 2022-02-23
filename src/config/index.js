@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+let path = require("path");
 let config = {
     dev: process.env.NODE_ENV !== 'production',
     port: process.env.PORT || 3000,
@@ -10,6 +10,18 @@ let config = {
     algorithmToken: process.env.JWT_ALGORITHM,
     saltCrypt: process.env.SALT_ROUNDS,
     apiVersion: process.env.API_VERSION,
+    appFolder: path.dirname(require.main ? require.main.filename : __dirname),
+    uploadedFilesUrl: process.env.UPLOADED_FILES_FOLDER,
+    uploadedFilesFolder: path.resolve(
+      __dirname,
+      '../',
+      process.env.UPLOADED_FILES_FOLDER
+    ),
+    loggerFileFolder: path.resolve(
+      __dirname,
+      '../',
+      process.env.LOGGER
+    ), 
 }
 
 const unlokmeDBConn = {

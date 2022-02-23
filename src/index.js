@@ -1,11 +1,11 @@
 const express = require('express');
 const corsHandler = require('./utils/middleware/corsHandler');
-// const {
-//     logErrors,
-//     wrapErrors,
-//     errorHandler
-//   } = require('./utils/middleware/errorHandlers');
-//   const notFoundHandler = require('./utils/middleware/notFoundHandler');
+const {
+    logErrors,
+    wrapErrors,
+    errorHandler
+  } = require('./utils/middleware/errorHandlers');
+  const notFoundHandler = require('./utils/middleware/notFoundHandler');
 const serveRoutes = require('./routes');
 
 class Server {
@@ -20,7 +20,6 @@ class Server {
 
     
     settings() {
-        this.app.use(corsHandler());
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended:true}));
         this.app.use(express.static('public'));
@@ -34,19 +33,15 @@ class Server {
    
 
     middleware() {
-        
-        this.app.use(cors('*'));
-        this.app.use(express.json());
-        this.app.use(express.urlencoded({extended:true}));
-        this.app.use(express.static('public'));
+        this.app.use(corsHandler());
 
         // Catch 404
-        // this.app.use(notFoundHandler);
+        this.app.use(notFoundHandler);
 
-        // //Errors controllers
-        // this.app.use(logErrors);
-        // this.app.use(wrapErrors);
-        // this.app.use(errorHandler);
+        //Errors controllers
+        this.app.use(logErrors);
+        this.app.use(wrapErrors);
+        this.app.use(errorHandler);
     }
     
     routes() {
