@@ -18,7 +18,7 @@ const app = new Sequelize(
       acquire: 60000,
       idle: 20000
     },
-    logging: config.dev
+    logging: config.dev ? console.log : config.dev
   }
 );
 

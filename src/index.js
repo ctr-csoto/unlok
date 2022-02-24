@@ -1,4 +1,6 @@
 const express = require('express');
+let cluster = require("cluster");
+let numCPUs = require("os").cpus().length;
 const corsHandler = require('./utils/middleware/corsHandler');
 const {
     logErrors,
@@ -16,6 +18,7 @@ class Server {
         this.settings();
         this.middleware();
         this.routes();
+        this.error_middleware();
     }
 
     
@@ -34,25 +37,41 @@ class Server {
 
     middleware() {
         this.app.use(corsHandler());
-
-        // Catch 404
-        this.app.use(notFoundHandler);
-
-        //Errors controllers
-        this.app.use(logErrors);
-        this.app.use(wrapErrors);
-        this.app.use(errorHandler);
     }
     
     routes() {
         serveRoutes(this.app);
     }
+
+    error_middleware() {
+
+        // Catch 404
+        this.app.use(notFoundHandler);
+
+        // Errors controllers
+        this.app.use(logErrors);
+        this.app.use(wrapErrors);
+        this.app.use(errorHandler);
+    }
     
     listen() {
-        this.app.listen(this.port, () => {
-            console.log(`Server is running on http://${this.host}:${this.port}`);
-        });
+        if(cluster.isMaster){
+
+            // WORKERS
+            for (let i = 0; i < numCPUs; i++) {
+                cluster.fork();        
+            }
+        
+            cluster.on("exit", (worker, code, signal)=>{
+                console.log(`Worker dead ${worker.process.pid}`)
+                cluster.fork(); 
+            })
+        }else{
+            this.app.listen(this.port, err=>{
+                console.log(`Server On http://${this.host}:${this.port}  ||  Worker ${process.pid} - FH: ${new Date()}`)
+            })
+        }
     }
 }
 
-module.exports = new Server();
+module.exports = Server;
