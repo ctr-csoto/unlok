@@ -10,54 +10,143 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         autoIncrement: true,
       },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      last_name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       username: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+      	unique: true
       },
-      password: {
+      email: {
         type: DataTypes.STRING,
+        allowNull: false
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      money: {
+        type: DataTypes.DOUBLE,
         allowNull: false,
+        defaultValue: 0
       },
-      photo: {
+      picture: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: true
       },
-      phone: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      token: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      last_activity_at: {
+      date_registered: {
         type: DataTypes.DATE,
-        allowNull: true,
+        allowNull: true
       },
-      enabled: {
-        type: DataTypes.BOOLEAN,
+      last_login: {
+        type: DataTypes.DATE,
+        allowNull: true
+      },
+      pw_hash: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      lang: {
+        type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: true,
+        defaultValue: 'en'
       },
-      rol_id: {
+      fraud: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
+      freeze: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
+      email_confirm: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
+      ask_before_buy: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1
+      },
+      ask_to_rate: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1
+      },
+      ask_to_follow: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1
+      },
+      ask_to_ads: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        references: {
-          model: "roles",
-          key: "id",
-        },
+        defaultValue: 1
       },
-      created_at: {
-        type: DataTypes.DATE
+      last_ip: {
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      gallery_known: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+      },
+      test: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+      },
+      deleted: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+      },
+      fake: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+      },
+      super: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+      },
+      privileges: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      geo_info: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
+      came_from: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      first_failed_login: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
+      failed_login_count: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+      },
+      telegram_chat_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true
+      },
+      receive_emails: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 1
+      },
+      receive_telegram: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
       }
     },
     {
@@ -68,15 +157,8 @@ module.exports = function (sequelize, DataTypes) {
   );
 
   User.associate = (Models) => {
-    const {
-      Role
-    } = Models;
+    const {} = Models;
 
-    User.belongsTo(Role, {
-      foreignKey: "rol_id",
-      constraints: true,
-      as: "role",
-    });
   };
 
   return User;
