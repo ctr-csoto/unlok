@@ -1,25 +1,6 @@
 image: atlassian/default-image:2
 
 definitions:
-  get-env-var: &get-env-vars
-    - step:
-        name: "Get env vars"
-        image: vault:latest
-        script:
-          - export VAULT_ADDR=$VAULT_ADDR
-          - export VAULT_TOKEN=$VAULT_TOKEN
-          - vault kv get -format json unlokme/${BITBUCKET_BRANCH}/api > environment.json
-        artifacts:
-          - environment.json
-  convert-env-var: &convert-env-var
-    - step:
-        name: "Convert env vars"
-        script:
-          - apt install jq
-          - jq -r '.data.data' environment.json > env.json
-          - cat env.json | jq -r 'to_entries[] | .key + "=\"" + (.value|tostring) + "\""' > .env
-        artifacts:
-          - .env
   create-upload-and-deploy-docker-image: &create-upload-and-deploy-docker-image
     name: "Create, upload and deploy docker image"
     image: atlassian/default-image:2
@@ -37,46 +18,12 @@ definitions:
           FORCE_NEW_DEPLOYMENT: 'true'
 
 pipelines:
-  tags:
-    v*:
-      - step:
-          name: "Get env vars"
-          image: vault:latest
-          script:
-            - export VAULT_ADDR=$VAULT_ADDR
-            - export VAULT_TOKEN=$VAULT_TOKEN
-            - vault kv get -format json truckstop/middleware/master/backend > environment.json
-          artifacts:
-            - environment.json
-      - step:
-          name: "Convert env vars"
-          script:
-            - apt install jq
-            - jq -r '.data' environment.json > env.json
-            - cat env.json | jq -r 'to_entries[] | .key + "=\"" + (.value|tostring) + "\""' > .env
-          artifacts:
-            - .env
-      - step:
-          name: "Create and upload docker image"
-          image: atlassian/default-image:2
-          services:
-            - docker
-          script:
-            - docker build -t ${PROJECT_NAME}-${CONTAINER_NAME}-production -f ./Dockerfile .
-            - pipe: atlassian/aws-ecr-push-image:1.5.0
-              variables:
-                IMAGE_NAME: ${PROJECT_NAME}-${CONTAINER_NAME}-production
-                TAGS: ${BITBUCKET_TAG}
   branches:
     develop:
-      - <<: *get-env-vars
-      - <<: *convert-env-var
       - step:
           <<: *create-upload-and-deploy-docker-image
           deployment: develop
     staging:
-      - <<: *get-env-vars
-      - <<: *convert-env-var
       - step:
           <<: *create-upload-and-deploy-docker-image
           deployment: staging
