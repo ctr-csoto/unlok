@@ -1,19 +1,20 @@
-const { User, Role } = require('../../../models/index');
+const { Users } = require('../../../models/index');
 const ResourceService = require('../../../utils/resource/resourceService');
 const UnlokMeDB = require('../../../config/database');
 const unlokMeDB = new UnlokMeDB().connect();
 
 class UserService extends ResourceService {
   constructor() {
-    super(User, User.name);
+    super(Users, Users.name);
   }
 
   getRolInclude() {
-    return {
-      model: Role,
-      as: 'role',
-      required: true
-    };
+    return {}
+    // return {
+    //   model: Role,
+    //   as: 'role',
+    //   required: true
+    // };
   }
 
   async getUser(id, optQuery = {}) {
