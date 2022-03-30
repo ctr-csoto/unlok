@@ -14,7 +14,7 @@ class Media{
     for (const file of files) {
       try {
         if(file.mimetype.split("/")[0] == "video"){
-          upload_arr.push(this.threadsWaterMaker(user, file));
+          upload_arr.push(this.threadsWaterMaker(user, file, _url_user));
         }else{
           
           const image = await Jimp.read(file.path);
@@ -70,9 +70,9 @@ class Media{
     return asdsad;
   }
 
-  async uploadToS3Buffer(modelId, type ='profile', fileName, img, original = false) {
+  async uploadToS3Buffer(modelId, type ='profile', fileName, img, original = false, buffer = true) {
     let s3Path = `${this.buildUploadsFolder(modelId, type)}/${original ? 'original_' :''}${new Date().getTime()}_${fileName}`;
-    let res = await S3Uploads.uploadAWS(s3Path, img, true);
+    let res = await S3Uploads.uploadAWS(s3Path, img, buffer);
     return res;
   }
 
@@ -103,22 +103,24 @@ class Media{
     }
   }
 
-  async threadsWaterMaker(user, file){
+  async threadsWaterMaker(user, file, url_user){
       try {
         if(file.mimetype.split("/")[0] == "video"){
           if (isMainThread) {
-            await this.uploadToS3Buffer(user.id, user.type, file.originalname, file.path, true);
+            await this.uploadToS3Buffer(user.id, user.type, file.originalname, file.path, true, false);
             let url_img_fixed = path.resolve(__dirname, "../", "../", "../", "resources", "images", "unlok_50.png");
               let thread = new Worker(path.resolve(__dirname,"./mediaThreadService.js"), {
                 workerData: {
                   file: file.path,
                   filename: file.originalname,
                   watermark_image_url: url_img_fixed,
+                  url_user
                 },
               })
               thread.on("message", async data => {
                 console.log("---> ", data.status, data.file);
-                let videoS3 = await this.uploadToS3Buffer(user.id, user.type, file.originalname, data.file, false);
+                let videoS3 = await this.uploadToS3Buffer(user.id, user.type, file.originalname, data.file, false, false);
+                console.log(videoS3);
                 // Delete temporary file
                 if (fs.existsSync(file.path)) {
                   fs.unlinkSync(file.path);
@@ -127,7 +129,6 @@ class Media{
                 if (fs.existsSync(data.file)) {
                   fs.unlinkSync(data.file);
                 }
-                console.log("VIDEOOOOO", videoS3)
                 return videoS3;
               })
               thread.on("error", err => {

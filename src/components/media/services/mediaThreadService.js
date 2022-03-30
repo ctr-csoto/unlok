@@ -1,34 +1,15 @@
 let ffmpeg = require("ffmpeg");
 let path = require("path");
 const fs = require("fs")
-const { workerData, parentPort } = require("worker_threads");
-
+const { workerData, parentPort } = require("worker_threads")
+console.log("workerData --> ",workerData);
+let dest = "/dest/video.mp4";
 (async () =>{
     try {
         let video = await new ffmpeg(workerData.file);
-        await video.setVideoSize('640x?', true, true, '#000');
-        await video.addFilterComplex([
-          {
-              filter: 'drawtext',
-              options: {
-                  fontsize: 15,
-                  timecode: '00\:00\:00\:00',  //<--- Issue is most likely here
-                  fontsize: 32,
-                  fontcolor: 'white',
-                  boxcolor: 'black',
-                  box: 1
-              }
-          }
-        ]);
-        // await video.addFilterComplex([
-        //   "[in]drawtext=text='Testing AM':",
-        //   "fontcolor=white: borderw=2: fontfile=Arial Black: fontsize=w*0.04:",
-        //   "x=(w-text_w)-(w*0.04): y=(h-text_h)-(w*0.04): enable='between(t,0,6)',",
-        //   "drawtext=text='Testing AM': fontcolor=white: borderw=2:",
-        //   "fontfile=Arial Black: fontsize=w*0.04: x=(w-text_w)/2: y=(h-text_h)/2:",
-        //   "enable='between(t,7,10)'[out]"
-        // ])
-
+        await video.setVideoSize('640x?', true, true, '#000');        
+        await video.addCommand(`-vf', "drawtext=text='${workerData.url_user}':x=10:y=H-th-10:fontsize=20:fontcolor=white:shadowcolor=black:shadowx=2:shadowy=2`);
+        console.log("818922823");
           var newFilepath = path.resolve(__dirname, "videostemp", workerData.filename);
 
           var settings = {
@@ -38,6 +19,7 @@ const { workerData, parentPort } = require("worker_threads");
               margin_east: null, // Margin east
               margin_west: null // Margin west
           }
+          
           let processingVideo = await video.fnAddWatermark(workerData.watermark_image_url, newFilepath, settings);
           parentPort.postMessage({ status: "Done", file: processingVideo });
       } catch (e) {
