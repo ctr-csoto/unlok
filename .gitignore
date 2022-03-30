@@ -6,6 +6,7 @@
 # Custome
 package-lock.json
 .env
+uploadtest/
 #/src/utils/middleware
 
 # Node artifact files

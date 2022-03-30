@@ -7,7 +7,8 @@ module.exports = {
       'userFiles',
       undefined,
       undefined,
-      { files: 1 }
+      { files: 30 },
+      false
     );
   }
 };

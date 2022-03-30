@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const { config } = require('../../config/index');
-const { User } = require('../../models/index');
 
 async function generate(payloadTokenData) {
   try {

@@ -1,3 +1,3 @@
+// const Server = require('./src/app_withoutPOO');
 const Server = require('./src');
-let app = new Server()
-app.listen();
+new Server().listen();

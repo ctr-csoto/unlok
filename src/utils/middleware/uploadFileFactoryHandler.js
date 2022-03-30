@@ -48,7 +48,8 @@ class UploadFileFactory {
     folderName,
     compressImage = false,
     rules = null,
-    limits
+    limits,
+    tmp
   ) {
     const path = UploadFileFactory.getTmpFolder(folderName);
     const destination = UploadFileFactory.getDestinationFunction(
@@ -63,7 +64,8 @@ class UploadFileFactory {
       'array',
       rules,
       compressImage,
-      limits
+      limits,
+      tmp
     );
   }
 }

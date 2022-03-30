@@ -108,12 +108,16 @@ class FileManager {
     type = TYPE_FILE,
     rules = RULES,
     compressImage = false,
-    limits = {}
+    limits = {},
+    tmp = false
   ) {
     let multerOpts = {
-      storage: multer.diskStorage({
+      storage: tmp ? multer.memoryStorage({
+        filename: this.filename
+      }) : multer.diskStorage({
         destination: this.destination,
         filename: this.filename
+        // fileSize: 10000000 // 10000000 Bytes = 10 MB
       }),
       limits,
       fileFilter: function(req, file, cb) {
