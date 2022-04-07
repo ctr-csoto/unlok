@@ -7,9 +7,12 @@ let dest = "/dest/video.mp4";
 (async () =>{
     try {
         let video = await new ffmpeg(workerData.file);
-        await video.setVideoSize('640x?', true, true, '#000');        
-        await video.addCommand(`-vf', "drawtext=text='${workerData.url_user}':x=10:y=H-th-10:fontsize=20:fontcolor=white:shadowcolor=black:shadowx=2:shadowy=2`);
-        console.log("818922823");
+        // await video.setVideoSize('640x?', true, true, '#000').addCommand('-f', 'mov');     
+        let video2 = await video.addCommand( '-f', `scale=320:240`);
+        // await video.addCommand(`-vf', "drawtext=text='${workerData.url_user}':x=10:y=H-th-10:fontsize=20:fontcolor=white:shadowcolor=black:shadowx=2:shadowy=2`);
+        console.log("818922823", video2, "0009999009");
+        console.log(video.metadata);
+
           var newFilepath = path.resolve(__dirname, "videostemp", workerData.filename);
 
           var settings = {
