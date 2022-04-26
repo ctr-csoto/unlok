@@ -1,3 +1,9 @@
+# Unlok Api Backend
+
+This file will explain how to access the different requests to the Unlok API
+
+
+
 **Steps to start the project**
 
 ```sh
@@ -7,17 +13,40 @@
 
 ---
 
-**Steps to run the project locally**
-1. Install Node.js and npm from [NodeJS.org](https://nodejs.org/en/).
-2. Use git to clone this repo on your local machine:
-*git clone https://andresmanzanounlokme@bitbucket.org/michel_zarate/unlok_backend.git* 
-3. In the root of the project, run the following commands
 
-    ```sh
-        - npm i aws-sdk @hapi/boom bcrypt cloudinary coderclaseoperaciones cors dotenv express ffmpeg ffprobe graphicsmagick install jimp joi jsonwebtoken knex mariadb mkdirp morgan multer mysql mysql2 npm sequelize cli sharp sqlite3 uninstall winston ffprobe-static jimp-watermark 
-        - npm i nodemon -D
-        - npm run start or npm run dev
-    ```
-    
+## Run Locally
 
----
+Install Node.js and npm from [NodeJS.org](https://nodejs.org/en/).
+
+Clone the project
+
+```bash
+  git clone https://andresmanzanounlokme@bitbucket.org/andresmanzanounlokme/unlokmebackend.git
+```
+
+Go to the project directory
+
+```bash
+  cd UnlokmeBackend
+```
+
+Install dependencies
+
+```bash
+  npm i aws-sdk @hapi/boom bcrypt cors dotenv express ffmpeg jimp joi jsonwebtoken knex mkdirp morgan multer mysql npm sequelize cli sharp sqlite3 winston
+  npm i nodemon -D
+```
+
+Start the server
+
+```bash
+  npm run start
+```
+
+Start the project in development mode
+
+```bash
+  npm run dev
+```
+
+
