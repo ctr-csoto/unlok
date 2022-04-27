@@ -119,4 +119,72 @@ The API has service-oriented architecture (SOA), with each service divided into 
 
 
 
+##  Database
+We use the ORM Sequelize to connect and to manipulate the database.
+### Connection example
+
+```javascript
+const Sequelize = require('sequelize');
+const { unlokmeDBConn } = require('./index');
+
+const app = new Sequelize(
+  unlokmeDBConn.dbName,
+  unlokmeDBConn.dbUsername,
+  unlokmeDBConn.dbPassword,
+  {
+    host: unlokmeDBConn.dbHost,
+    dialect: unlokmeDBConn.dbDialect,
+    timezone: '-05:00',
+    pool: {
+      max: 100,
+      min: 50,
+      acquire: 60000,
+      idle: 20000
+    },
+    logging: false 
+  }
+);
+```
+
+## API Reference
+- Dev environment: https://unlokme-api-develop.lean-tech.io
+- Staging environment: https://unlokme-api-develop.lean-tech.io
+
+
+#### Login Request
+
+```http
+POST /auth/login
+```
+
+| Parameter | Type     | Required                |
+| :-------- | :------- | :------------------------- |
+| `username` | `string` | **true**.      |
+| `password` | `string` | **true**.      |
+
+
+#### Verify token
+
+```http
+POST /auth/verifyToken
+```
+
+| Parameter | Type     | Required                       |
+| :-------- | :------- | :-------------------------------- |
+| `token`      | `string` | **true**. User Token |
+
+
+#### media/uploadservice
+
+```http
+POST /media/uploadservice
+```
+
+| Parameter    |  Type    | Required  | Description |
+| :----------- | :------- | :-------- | :---------- |
+| `id`         | `string` | **true** |  asdasd  |
+| `userFiles`  | `file`   | **true** |  asdasd  |
+| `type`       | `string` | **true** |  asdasd  |
+| `username`   | `string` | **true** |  asdasd  |
+
 
