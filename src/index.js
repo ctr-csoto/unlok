@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require("path");
 let cluster = require("cluster");
 let numCPUs = require("os").cpus().length;
 const corsHandler = require('./utils/middleware/corsHandler');
@@ -16,6 +17,7 @@ class Server {
         this.port = process.env.PORT || 3000;
         this.host = process.env.HOST || 'localhost';
         this.settings();
+        this.views();
         this.middleware();
         this.routes();
         this.error_middleware();
@@ -36,7 +38,7 @@ class Server {
    
 
     middleware() {
-        this.app.use(corsHandler());
+        this.app.use(corsHandler("*"));
     }
     
     routes() {

@@ -1,5 +1,5 @@
 
-const generateUnlokmeModels = require('./db');
+const generateUnlokmeModels = require('./db_test');
 const UnlokmeDB = require('../config/database');
 const unlokmeDB = new UnlokmeDB();
 

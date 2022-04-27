@@ -8,7 +8,6 @@ const { loginSchema, verifyTokenSchema } = require('./schemas/index');
 
 module.exports = function authApi(app) {
     app.use("/auth", router);
-    //   router.use(AuthMiddleware.getAuthenticatedUser);
     router.post(
         '/login',
         validationHandler(loginSchema),

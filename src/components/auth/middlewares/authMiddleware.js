@@ -1,5 +1,5 @@
 const boom = require('@hapi/boom');
-const JWTService = require('../../../utils/JWTService');
+const JWTService = require('../../../utils/JWT/JWTService');
 const { User, Role } = require('../../../models');
 
 class AuthMiddleware {

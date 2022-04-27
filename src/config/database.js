@@ -18,17 +18,17 @@ const app = new Sequelize(
       acquire: 60000,
       idle: 20000
     },
-    logging: config.dev ? console.log : config.dev
+    logging: false //config.dev ? console.log : config.dev
   }
 );
 
-class RitewayDB {
+class UnlokMeDB {
   constructor() {
     this.client = app;
   }
   connect() {
-    if (!RitewayDB.connection) {
-      RitewayDB.connection = new Promise((resolve, reject) => {
+    if (!UnlokMeDB.connection) {
+      UnlokMeDB.connection = new Promise((resolve, reject) => {
         if (!this.client) {
           debug('We have a problem with the connection, please check your env');
           reject('Error');
@@ -41,4 +41,4 @@ class RitewayDB {
   }
 }
 
-module.exports = RitewayDB;
+module.exports = UnlokMeDB;

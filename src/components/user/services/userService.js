@@ -28,19 +28,22 @@ class UserService extends ResourceService {
   }
 
   async getUserByUsername(username, enabledReq = true) {
-    let query = {
-      include: this.getRolInclude(),
-      paranoid: false
-    };
-
-    let where = {
-      username
-    };
-
-    if (enabledReq) where.enabled = true;
-
-    const user = await User.findOne({ ...query, where });
-    return user;
+    try {
+      let query = {
+        include: this.getRolInclude(),
+        paranoid: false
+      };
+  
+      let where = {
+        username
+      };
+  
+      if (enabledReq) where.enabled = true;
+      const user = await User.findOne({ ...query, where });
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
   }
   
 }
