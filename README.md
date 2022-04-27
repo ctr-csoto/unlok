@@ -112,9 +112,10 @@ The API has service-oriented architecture (SOA), with each service divided into 
 
   3) We have each of the services that our application provides within the component folder, such as the service of authenticating a user and verifying their role, which we do in the auth folder, which is made up of:
 
-  - Controller: The controller is in charge of calling the various services of the incoming request, assembling the response, and returning it to the user.
-  - Service: In a nutshell, this service is responsible for connecting to the database, generating documents, and sending emails. This file contains the code needed for each request to work properly.
+  - ```Controller```: The controller is in charge of calling the various services of the incoming request, assembling the response, and returning it to the user.
+  - ```Service```: In a nutshell, this service is responsible for connecting to the database, generating documents, and sending emails. This file contains the code needed for each request to work properly.
 
+![App Screenshot](https://unlokme-develop-media.s3.amazonaws.com/uploads/readme/image+(15).png)
 
 
 
