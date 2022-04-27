@@ -57,35 +57,61 @@ Start the project in development mode
 To run this project, you will need to add the following environment variables to your .env file. Although you can rely on the .env.example file
 
 `AWS_S3_ACCESS_KEY_ID`
+
 `AWS_S3_BUCKET`
+
 `AWS_S3_REGION`
+
 `AWS_S3_SECRET_ACCESS_KEY`
+
 `NODE_ENV`
+
 `PORT`
+
 `SALT_ROUNDS`
+
 `CORS`
+
 `DB_DIALECT`
+
 `DB_HOST`
+
 `DB_USER`
+
 `DB_PASSWORD`
+
 `DB_NAME`
+
 `JWT_ALGORITHM`
+
 `JWT_EXPERIES_IN`
+
 `JWT_SECRET`
+
 `UPLOADED_FILES_FOLDER`
+
 `LOGGER`
+
 
 
 ## Roadmap
 
 The API has service-oriented architecture (SOA), with each service divided into components folder.
 
-- We begin the application in the Server class, which is located within the index.js file. This file is in charge of:
-  - Express start-up
-  - Setting the port
-  - Setting the smallest configuration for managing all types of requests
-  - Start the view engine with the ejs module.
-  - Transporting CORS and error-handling middleware
-    - We can map errors like 404 not found, bad implementation, and 'catch' exceptions in error middlewares, among other things.
-  - And starting the server's listening using subprocesses that allow you to take advantage of the server's processing power.
+  1) We begin the application in the Server class, which is located within the index.js file. This file is in charge of:
+    - Express start-up
+    - Setting the port
+    - Setting the smallest configuration for managing all types of requests
+    - Start the view engine with the ejs module.
+    - Transporting CORS and error-handling middleware
+      - We can map errors like 404 not found, bad implementation, and 'catch' exceptions in error middlewares, among other things.
+    - And starting the server's listening using subprocesses that allow you to take advantage of the server's processing power.
+  2) The project has a route controller, which controls each of the components
+  3) We have each of the services that our application provides within the component folder, such as the service of authenticating a user and verifying their role, which we do in the auth folder, which is made up of:
+    - Controller: The controller is in charge of calling the various services of the incoming request, assembling the response, and returning it to the user.
+    - Service: In a nutshell, this service is responsible for connecting to the database, generating documents, and sending emails. This file contains the code needed for each request to work properly.
+
+
+
+
 
