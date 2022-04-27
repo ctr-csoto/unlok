@@ -182,9 +182,8 @@ POST /media/uploadservice
 
 | Parameter    |  Type    | Required  | Description |
 | :----------- | :------- | :-------- | :---------- |
-| `id`         | `string` | **true** |  asdasd  |
-| `userFiles`  | `file`   | **true** |  asdasd  |
-| `type`       | `string` | **true** |  asdasd  |
-| `username`   | `string` | **true** |  asdasd  |
-
+| `id`         | `string` | **true** |  Identifier of the user  |
+| `userFiles`  | `file`   | **true** |  Files can to be images or videos  |
+| `type`       | `string` | **true** |  Content type [Reel, plus, post, profile, and etc.]  |
+| `username`   | `string` | **true** |  Username with which the user can be found on Unlok  |
 
