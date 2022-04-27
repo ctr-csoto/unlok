@@ -115,10 +115,7 @@ The API has service-oriented architecture (SOA), with each service divided into 
   - ```Controller```: The controller is in charge of calling the various services of the incoming request, assembling the response, and returning it to the user.
   - ```Service```: In a nutshell, this service is responsible for connecting to the database, generating documents, and sending emails. This file contains the code needed for each request to work properly.
 
-
-## Screenshots
-
-![Screenshot](https://unlokme-develop-media.s3.amazonaws.com/uploads/readme/readme.png|width=100)
+![Image](https://unlokme-develop-media.s3.amazonaws.com/uploads/readme/readme.png)
 
 
 
