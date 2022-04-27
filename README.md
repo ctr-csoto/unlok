@@ -99,6 +99,7 @@ To run this project, you will need to add the following environment variables to
 The API has service-oriented architecture (SOA), with each service divided into components folder.
 
   1) We begin the application in the Server class, which is located within the index.js file. This file is in charge of:
+
     - Express start-up
     - Setting the port
     - Setting the smallest configuration for managing all types of requests
@@ -106,8 +107,11 @@ The API has service-oriented architecture (SOA), with each service divided into 
     - Transporting CORS and error-handling middleware
       - We can map errors like 404 not found, bad implementation, and 'catch' exceptions in error middlewares, among other things.
     - And starting the server's listening using subprocesses that allow you to take advantage of the server's processing power.
+
   2) The project has a route controller, which controls each of the components
+
   3) We have each of the services that our application provides within the component folder, such as the service of authenticating a user and verifying their role, which we do in the auth folder, which is made up of:
+  
     - Controller: The controller is in charge of calling the various services of the incoming request, assembling the response, and returning it to the user.
     - Service: In a nutshell, this service is responsible for connecting to the database, generating documents, and sending emails. This file contains the code needed for each request to work properly.
 
