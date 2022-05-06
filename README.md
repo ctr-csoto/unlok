@@ -18,6 +18,7 @@ This file will explain how to access the different requests to the Unlok API
 ## Run Locally
 
 Install Node.js and npm from [NodeJS.org](https://nodejs.org/en/).
+
 Install ffmpeg from [ffmpeg.org](https://ffmpeg.org/download.html).
 
 Clone the project
