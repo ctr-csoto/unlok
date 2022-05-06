@@ -12,8 +12,9 @@
   "author": "Andrés Manzano",
   "license": "ISC",
   "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@hapi/boom": "^9.1.4",
-    "aws-sdk": "^2.1128.0",
+    "aws-sdk": "^2.1129.0",
     "bcrypt": "^5.0.1",
     "cli": "^1.0.1",
     "cloudinary": "^1.28.1",
@@ -42,7 +43,7 @@
     "sequelize": "^6.19.0",
     "sequelize-cli": "^6.4.1",
     "sharp": "^0.30.4",
-    "sqlite3": "^5.0.6",
+    "sqlite3": "^5.0.8",
     "uninstall": "^0.0.0",
     "winston": "^3.7.2"
   },

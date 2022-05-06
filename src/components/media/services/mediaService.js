@@ -169,7 +169,7 @@ class Media {
           );
           thread.on("message", async (data) => {
             console.log("---> ", data.status);
-               
+
             let videoS3 = await this.uploadToS3Buffer(
               user.id,
               user.type,
@@ -180,8 +180,21 @@ class Media {
             );
             //console.log(videoS3);
             // Delete processing temporary file
-            if (fs.existsSync(data.file.path)) {
-              fs.unlinkSync(data.file.path);
+            if (fs.existsSync(file.path)) {
+              fs.unlink(file.path, function (err) {
+                if (err) throw err;
+
+                console.log("Original file deleted");
+              });
+            }
+            if (file.mimetype != "video/mp4") {
+              if (fs.existsSync(data.file.path)) {
+                fs.unlink(data.file.path, function (err) {
+                  if (err) throw err;
+
+                  console.log("Converted file deleted");
+                });
+              }
             }
             return videoS3;
           });

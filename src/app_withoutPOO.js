@@ -5,7 +5,7 @@ const serveRoutes = require('./routes');
 const morgan = require("morgan");
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
-ffmpeg.setFfmpegPath(ffmpegPath);
+
 const mime = require('mime-types');
 
 let app = express();
@@ -30,6 +30,9 @@ let host = process.env.HOST || 'localhost';
     });
 });
 console.log(ffmpeg);*/
+ffmpeg.setFfmpegPath(ffmpegPath);
+console.log(ffmpegPath);
+console.log(ffmpeg);
 
 app.use(corsHandler("*"));
 app.use(morgan('dev'));
