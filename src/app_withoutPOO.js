@@ -3,15 +3,17 @@ const path = require("path");
 const corsHandler = require('./utils/middleware/corsHandler');
 const serveRoutes = require('./routes');
 const morgan = require("morgan");
-const ffmpeg = require("fluent-ffmpeg");
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+const ffmpeg = require('fluent-ffmpeg');
+ffmpeg.setFfmpegPath(ffmpegPath);
 const mime = require('mime-types');
 
 let app = express();
 let port = process.env.PORT || 3000;
 let host = process.env.HOST || 'localhost';
 
-ffmpeg.setFfmpegPath(process.env.FFMPEG_PATH);
-ffmpeg.setFfprobePath(process.env.FFPROBE_PATH);
+//ffmpeg.setFfmpegPath(process.env.FFMPEG_PATH);
+//ffmpeg.setFfprobePath(process.env.FFPROBE_PATH);
 //ffmpeg.setFlvtoolPath("C:/flvtool");
 
 /*ffmpeg.getAvailableFormats(function(err, formats) {
@@ -26,9 +28,8 @@ ffmpeg.setFfprobePath(process.env.FFPROBE_PATH);
         console.log('video', format);
       }
     });
-});*/
-
-console.log(ffmpeg);
+});
+console.log(ffmpeg);*/
 
 app.use(corsHandler("*"));
 app.use(morgan('dev'));
