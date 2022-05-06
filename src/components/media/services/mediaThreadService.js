@@ -7,6 +7,10 @@ const { workerData, parentPort } = require("worker_threads");
   try {
     ffmpeg(workerData.file)
       .withOutputFormat(workerData.output_to)
+      .input(workerData.watermark_image_url)
+      .videoCodec("libx264")
+      .outputOptions("-pix_fmt yuv420p")
+      .complexFilter(["[0:v]scale=640:-1[bg];[bg][1:v]overlay=W-w-10:H-h-10"])
       .on("end", function (stdout, stderr) {
         fs.unlink(workerData.file, function (err) {
           if (err) throw err;

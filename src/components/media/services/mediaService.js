@@ -169,6 +169,7 @@ class Media {
           );
           thread.on("message", async (data) => {
             console.log("---> ", data.status);
+               
             let videoS3 = await this.uploadToS3Buffer(
               user.id,
               user.type,
