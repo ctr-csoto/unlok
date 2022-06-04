@@ -1,5 +1,6 @@
-let ffmpeg = require("fluent-ffmpeg");
-let path = require("path");
+const ffmpegPath  = require('@ffmpeg-installer/ffmpeg').path;
+const ffmpeg = require('fluent-ffmpeg');
+      ffmpeg.setFfmpegPath(ffmpegPath);
 const fs = require("fs");
 const { workerData, parentPort } = require("worker_threads");
 
@@ -10,9 +11,9 @@ const { workerData, parentPort } = require("worker_threads");
       .input(workerData.watermark_image_url)
       .videoCodec("libx264")
       .outputOptions("-pix_fmt yuv420p")
-      .complexFilter(["[0:v]scale=640:-1[bg];[bg][1:v]overlay=W-w-10:H-h-10"])
+      .complexFilter(["[0:v]scale=640:-1[bg];[bg][1:v]overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2"])
       .on("end", function (stdout, stderr) {
-        let newPath = workerData.destination + "\\" + workerData.filenewname;
+        let newPath = workerData.destination + "/" + workerData.filenewname;
         parentPort.postMessage({
           status: "Done",
           file: {
@@ -22,7 +23,7 @@ const { workerData, parentPort } = require("worker_threads");
         });
       })
       .on("error", function (err) {
-        console.log("An error happened: " + err.message);
+        console.log("An error happened: " + err.message, workerData.filename);
         if (fs.existsSync(workerData.file)) {
           fs.unlink(workerData.file, function (err) {
             if (err) throw err;
