@@ -9,6 +9,7 @@ const {
   parentPort,
   workerData,
 } = require("worker_threads");
+const { resolve } = require("path");
 const WIDTH_IMG = 500;
 class Media {
   async uploadResource(user, files) {
@@ -17,7 +18,9 @@ class Media {
     for (const file of files) {
       try {
         if (file.mimetype.split("/")[0] == "video") {
-          upload_arr.push(this.threadsWaterMaker(user, file, _url_user));
+          await this.threadsWaterMaker(user, file, _url_user).then((res) => {
+            upload_arr.push(res);
+          });
         } else {
           const image = await Jimp.read(file.path);
           let size_w_img = image.getWidth();
@@ -151,64 +154,69 @@ class Media {
             "images",
             "unlok_50.png"
           );
-          console.log(file);
 
-          let thread = new Worker(
-            path.resolve(__dirname, "./mediaThreadService.js"),
-            {
-              workerData: {
-                file: file.path,
-                filename: file.originalname,
-                watermark_image_url: url_img_fixed,
-                output_to: "mp4",
-                filenewname: `${this.removeExtension(file.filename)}.mp4`,
-                destination: file.destination,
-                url_user,
-              },
-            }
-          );
-          thread.on("message", async (data) => {
-            console.log("---> ", data.status);
+          //console.log(file);
 
-            let videoS3 = await this.uploadToS3Buffer(
-              user.id,
-              user.type,
-              data.file.name,
-              data.file.path,
-              true,
-              false
+          return new Promise((resolve, reject) => {
+            let thread = new Worker(
+              path.resolve(__dirname, "./mediaThreadService.js"),
+              {
+                workerData: {
+                  file: file.path,
+                  filename: file.originalname,
+                  watermark_image_url: url_img_fixed,
+                  output_to: "mp4",
+                  filenewname: `${this.removeExtension(file.filename)}.mp4`,
+                  destination: file.destination,
+                  url_user,
+                },
+              }
             );
-            //console.log(videoS3);
-            // Delete processing temporary file
-            if (fs.existsSync(file.path)) {
-              fs.unlink(file.path, function (err) {
-                if (err) throw err;
+            thread.on("message", async (data) => {
+              console.log("---> ", data.status);
 
-                console.log("Original file deleted");
+              await this.uploadToS3Buffer(
+                user.id,
+                user.type,
+                data.file.name,
+                data.file.path,
+                true,
+                false
+              ).then((videoS3) => {
+                return resolve(videoS3);
               });
-            }
-            if (file.mimetype != "video/mp4") {
-              if (fs.existsSync(data.file.path)) {
-                fs.unlink(data.file.path, function (err) {
-                  if (err) throw err;
 
-                  console.log("Converted file deleted");
+              // Delete processing temporary file
+              if (fs.existsSync(file.path)) {
+                fs.unlink(file.path, function (err) {
+                  if (err) throw reject(err);
+
+                  console.log("Original file deleted");
                 });
               }
-            }
-            return videoS3;
-          });
-          thread.on("error", (err) => {
-            console.error("thread", err);
-          });
-          thread.on("exit", (code) => {
-            if (code != 0)
-              console.error(`Worker stopped with exit code ${code}`);
+              if (file.mimetype != "video/mp4") {
+                if (fs.existsSync(data.file.path)) {
+                  fs.unlink(data.file.path, function (err) {
+                    if (err) throw reject(err);
+
+                    console.log("Converted file deleted");
+                  });
+                }
+              }
+            });
+            thread.on("error", (err) => {
+              reject(err);
+              //console.error("thread", err);
+            });
+            thread.on("exit", (code) => {
+              if (code != 0)
+                console.error(`Worker stopped with exit code ${code}`);
+            });
           });
         }
       }
     } catch (error) {
-      console.log("errorrr", error);
+      console.log("error", error);
       return JSON.stringify(error);
     }
   }
